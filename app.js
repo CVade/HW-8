@@ -36,6 +36,35 @@ const team = [];
 // for the provided `render` function to work! ```
 
 function app() {
+    function createTeam() {
+        inquirer.prompt([{
+            name: "employee_type",
+            type: "list",
+            message: "Employee Type?",
+            choices: ["Engineer", "Intern", "Exit"]
+        }])
+            .then(choice => {
+                switch (choice.employee_type) {
+                    case "Engineer":
+                        createEngineer();
+                        break;
+                    case "Intern":
+                        createIntern();
+                        break;
+                    default:
+                        writeTeam();
+                        break;
+                }
+            })
+    }
+
+    function writeTeam() {
+        if (fs.existsSync(OUTPUT_DIR) === false) {
+            fs.mkdirSync(OUTPUT_DIR)
+        }
+        fs.writeFileSync(outputPath, render(team), "utf-8")
+    }
+
     function createManager() {
         inquirer.prompt([{
             name: "manager_name",
@@ -57,67 +86,70 @@ function app() {
             type: "input",
             message: "What is your Office #?",
         }
-    ]).then((answers) => {
-        const manager = new Manager(answers.manager_name, answers.email_link, answers.id_number, answers.office_number);
-        team.push(manager);
-    })
+        ]).then((answers) => {
+            const manager = new Manager(answers.manager_name, answers.email_link, answers.id_number, answers.office_number);
+            team.push(manager);
+            createTeam();
+        })
     }
 
-        function createEngineer() {
-            inquirer.prompt([{
-                name: "engineer_name",
-                type: "input",
-                message: "What is your name?",
-            },
-            {
-                name: "email_link",
-                type: "input",
-                message: "What is your email?",
-            },
-            {
-                name: "id_number",
-                type: "input",
-                message: "What is your ID #?",
-            },
-            {
-                name: "github_id",
-                type: "input",
-                message: "What is your Github ID?",
-            }
+    function createEngineer() {
+        inquirer.prompt([{
+            name: "engineer_name",
+            type: "input",
+            message: "What is your name?",
+        },
+        {
+            name: "email_link",
+            type: "input",
+            message: "What is your email?",
+        },
+        {
+            name: "id_number",
+            type: "input",
+            message: "What is your ID #?",
+        },
+        {
+            name: "github_id",
+            type: "input",
+            message: "What is your Github ID?",
+        }
         ]).then((answers) => {
             const engineer = new Engineer(answers.engineer_name, answers.email_link, answers.id_number, answers.github_id);
             team.push(engineer);
+            createTeam();
         })
 
+    }
+    function createIntern() {
+        inquirer.prompt([{
+            name: "intern_name",
+            type: "input",
+            message: "What is your name?",
+        },
+        {
+            name: "email_link",
+            type: "input",
+            message: "What is your email?",
+        },
+        {
+            name: "id_number",
+            type: "input",
+            message: "What is your ID #?",
+        },
+        {
+            name: "school_name",
+            type: "input",
+            message: "What is your School's name?",
         }
-        function createIntern() {
-            inquirer.prompt([{
-                name: "intern_name",
-                type: "input",
-                message: "What is your name?",
-            },
-            {
-                name: "email_link",
-                type: "input",
-                message: "What is your email?",
-            },
-            {
-                name: "id_number",
-                type: "input",
-                message: "What is your ID #?",
-            },
-            {
-                name: "school_name",
-                type: "input",
-                message: "What is your School's name?",
-            }
         ]).then((answers) => {
             const intern = new Intern(answers.intern_name, answers.email_link, answers.id_number, answers.school_name);
             team.push(intern);
+            createTeam();
         })
-        }
+    }
 
     createManager();
-    createEngineer();
-    createIntern();
 }
+
+app();
