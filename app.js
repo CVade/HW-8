@@ -87,7 +87,7 @@ function app() {
             message: "What is your Office #?",
         }
         ]).then((answers) => {
-            const manager = new Manager(answers.manager_name, answers.email_link, answers.id_number, answers.office_number);
+            const manager = new Manager(answers.manager_name, answers.id_number, answers.email_link, answers.office_number);
             team.push(manager);
             createTeam();
         })
@@ -115,7 +115,7 @@ function app() {
             message: "What is your Github ID?",
         }
         ]).then((answers) => {
-            const engineer = new Engineer(answers.engineer_name, answers.email_link, answers.id_number, answers.github_id);
+            const engineer = new Engineer(answers.engineer_name, answers.id_number, answers.email_link, answers.github_id);
             team.push(engineer);
             createTeam();
         })
@@ -143,7 +143,7 @@ function app() {
             message: "What is your School's name?",
         }
         ]).then((answers) => {
-            const intern = new Intern(answers.intern_name, answers.email_link, answers.id_number, answers.school_name);
+            const intern = new Intern(answers.intern_name, answers.id_number, answers.email_link, answers.school_name);
             team.push(intern);
             createTeam();
         })
